@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL57Dialect</property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://remotemysql.com/pEW46Q0lEP</property>
+        <property name="hibernate.connection.username">pEW46Q0lEP</property>
+        <property name="hibernate.connection.password">wRgg2qsNiw</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.jdbc.batch_size">20</property>
+        <mapping class="DAO.Player"/>
+        <mapping class="DAO.User"/>
+        <mapping class="DAO.Score"/>
+        <mapping class="DAO.Game"/>
+    </session-factory>
+</hibernate-configuration>

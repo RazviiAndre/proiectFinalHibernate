@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2"
+      fx:controller="controller.Controller">
+  <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0"
+              style="-fx-background-color: #87BFFF;&#10;" VBox.vgrow="ALWAYS">
+    <children>
+      <Button fx:id="sampleButtonPlay" disable="true" layoutX="23.0" layoutY="96.0" mnemonicParsing="false"
+              style="-fx-background-radius : 20;" text="Play"/>
+      <Button onAction="#setSampleButtonLogin" fx:id="sampleButtonLogin" layoutX="19.0" layoutY="10.0"
+              mnemonicParsing="false" style="-fx-background-radius : 20&#10;&#10;" text="Login"/>
+      <Button onAction="#setSampleButtonRegister" fx:id="sampleButtonRegister" layoutX="19.0" layoutY="52.0"
+              mnemonicParsing="false" style="-fx-background-radius : 20&#10;" text="Register"/>
+    </children>
+  </AnchorPane>
+</VBox>

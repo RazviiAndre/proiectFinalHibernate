@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane onMouseEntered="#setSampleLoggedDisplayDetails" prefHeight="400.0" prefWidth="640.0" style="-fx-background-color: #87BFFF" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="controller.Controller">
+  <children>
+    <Label layoutX="421.0" layoutY="10.0" text="Email :" />
+    <Label layoutX="216.0" layoutY="10.0" text="ID :" />
+    <Button fx:id="sampleLoggedPlayButton" layoutX="23.0" layoutY="96.0" mnemonicParsing="false" style="-fx-background-radius : 20&#10;&#10;" styleClass=".button" text="Play" />
+    <Label fx:id="sampleLoggedLabelUsername" layoutX="248.0" layoutY="10.0" prefWidth="125.0" text="" />
+    <Label fx:id="sampleLoggedLabelEmail" layoutX="476.0" layoutY="10.0" prefWidth="150.0" />
+    <Button fx:id="sampleLoggedLogoutButton" layoutX="19.0" layoutY="10.0" mnemonicParsing="false" onAction="#setSampleLoggedLogoutButton" style="-fx-background-radius : 20&#10;&#10;" styleClass=".button" text="Log Out" />
+    <Button layoutX="19.0" layoutY="52.0" mnemonicParsing="false" style="-fx-background-radius : 20&#10;&#10;" styleClass=".button" text="Setting" />
+    <Label layoutX="295.0" layoutY="57.0" prefWidth="73.9998779296875" text="Your score" />
+    <Label fx:id="sampleLoggedLabelScore" layoutX="311.0" layoutY="80.0" prefWidth="86.0" text="" textAlignment="CENTER" />
+  </children>
+</AnchorPane>
