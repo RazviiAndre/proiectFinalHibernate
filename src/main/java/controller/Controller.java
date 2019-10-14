@@ -19,19 +19,25 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Controller {
-
-
     //VARIABILE
     private boolean isLogged = false;
-    private static String loggedUsername;
+    public  String loggedUsername;
     private static String loggedPassword;
     private static String loggedEmail;
+
+    public  String getLoggedUsername() {
+        return loggedUsername;
+    }
+
     private static String loggedScore;
-    final String javaHome = System.getProperty("java.home");
+
+    //sample page
+    public Button sampleButtonPlay;
     public Button sampleButtonLogin;
     public Button sampleButtonRegister;
-    final String javaBin = javaHome + File.separator + "bin" + File.separator + "java";
     public Button buttonBackRegister;
+
+    //register page
     public TextField registerTextFieldUsername;
     public TextField registerTextFieldEmail;
     public TextField registerTextfieldLastname;
@@ -39,29 +45,32 @@ public class Controller {
     public TextField registerTextFieldPhone;
     public PasswordField registerTextFieldPassword;
     public PasswordField registerTextFieldConfirmPassword;
-    final String classpath = System.getProperty("/home/razvii/Downloads/exampleHibernate/src/main/java/controller/Main.java");
-    public Button loginButtonBack;
-    public PasswordField loginTextFieldPassword;
+    public Button registerButtonRegister;
+
+    //login page
     public TextField loginTextFieldUsername;
-    final Class<Main> klass = Main.class;
+    public PasswordField loginTextFieldPassword;
+    public Button loginButtonLogin;
+    public Button loginButtonBack;
+
+// sample logged page
+    public Button sampleLoggedPlayButton;
     public Button sampleLoggedLogoutButton;
     public Label sampleLoggedLabelUsername;
     public Label sampleLoggedLabelEmail;
     public Label sampleLoggedLabelScore;
-    final String className = klass.getCanonicalName();
 
-//METODE
-    final ProcessBuilder builder = new ProcessBuilder(javaBin, "-cp", classpath, className);
-    //sample page
-    public Button sampleButtonPlay;
-    //register page
-    public Button registerButtonRegister;
-    //login page
-    public Button loginButtonLogin;
-    //sample logged page
-    public Button sampleLoggedPlayButton;
-//    TEST BUTTONS
+    public Label getSampleLoggedLabelUsername() {
+        return sampleLoggedLabelUsername;
+    }
+
+
+
+    //    TEST BUTTONS
     public Button testButton;
+
+
+    //METODE
 
     public void setTestButton() {
         testButton.setOnAction(event -> {

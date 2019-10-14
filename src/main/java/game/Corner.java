@@ -1,4 +1,4 @@
-package controller;
+package game;
 
 public class Corner {
         int x, y;
