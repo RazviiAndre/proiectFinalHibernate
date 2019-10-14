@@ -1,9 +1,6 @@
 package DAO;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -21,6 +18,10 @@ public class Score {
 
     public Score(int id , int value ){
         this.id = id;
+        this.value = value;
+    }
+
+    public Score(int value){
         this.value = value;
     }
 

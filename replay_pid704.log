@@ -882,7 +882,7 @@ instanceKlass java/net/InetAddressImplFactory
 instanceKlass java/util/concurrent/ConcurrentSkipListMap$Node
 instanceKlass controller.DBApp
 instanceKlass java/util/concurrent/ConcurrentSkipListMap$Index
-instanceKlass Main
+instanceKlass Home
 instanceKlass java/util/concurrent/ConcurrentNavigableMap
 instanceKlass java/util/NavigableMap
 instanceKlass java/io/FileInputStream$1
