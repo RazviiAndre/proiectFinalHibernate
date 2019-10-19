@@ -1,14 +1,20 @@
+import controller.DBApp;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+
 public class Home extends Application {
 
 
     public static void main(String[] args) {
         launch(args);
+
 
 //        DBApp app = new DBApp();
         //      app.insertUser();
@@ -24,8 +30,11 @@ public class Home extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception
     {
+
+
 //        DBApp dbApp = new DBApp();
-//        System.out.println(dbApp.getScoreID("qwe"));
+//        System.out.println(dbApp.getScore("root"));
+        //        System.out.println(dbApp.getScoreID("qwe"));
 //        System.out.println(dbApp.getScore("qwe"));
 //        System.out.println(dbApp.getEmail("root"));
 //        System.out.println(dbApp.checkPlayerID(1));
@@ -37,7 +46,7 @@ public class Home extends Application {
 
 
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/sample.fxml"));
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
     }

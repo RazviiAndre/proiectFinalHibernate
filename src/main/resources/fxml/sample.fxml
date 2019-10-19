@@ -15,7 +15,6 @@
       <Button fx:id="sampleButtonPlay" disable="true" layoutX="23.0" layoutY="96.0" mnemonicParsing="false" style="-fx-background-radius : 20;" text="Play" />
       <Button fx:id="sampleButtonLogin" layoutX="19.0" layoutY="10.0" mnemonicParsing="false" onAction="#setSampleButtonLogin" style="-fx-background-radius : 20&#10;&#10;" text="Login" />
       <Button fx:id="sampleButtonRegister" layoutX="19.0" layoutY="52.0" mnemonicParsing="false" onAction="#setSampleButtonRegister" style="-fx-background-radius : 20&#10;" text="Register" />
-      <Button onAction="#setTestButton" fx:id="testButton" layoutX="242.0" layoutY="150.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="149.0" text="testbutton" />
     </children>
   </AnchorPane>
 </VBox>

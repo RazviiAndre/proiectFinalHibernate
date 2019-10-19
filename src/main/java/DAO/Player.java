@@ -19,8 +19,8 @@ public class Player {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(mappedBy = "player")
-    private Score score;
+//    @OneToOne(mappedBy = "player")
+//    private Score score;
 
     public Player(String firstName , String lastName , String email , int phone, User user){
         this.firstName = firstName;
@@ -81,12 +81,11 @@ public class Player {
         this.user = user;
     }
 
-    public Score getScore() {
-        return score;
-    }
+//    public Score getScore() {
+//        return score;
+//    }
 
-    public void setScore(Score score) {
-        this.score = score;
+    public void setScore(int score) {
     }
 
     @Override

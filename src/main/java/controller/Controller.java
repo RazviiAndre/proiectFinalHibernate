@@ -1,6 +1,8 @@
 package controller;
 
+import game.Main;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -10,24 +12,21 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Controller {
+public class Controller  {
+
     //VARIABILE
     private boolean isLogged = false;
-    public  String loggedUsername;
+    private static String loggedUsername;
     private static String loggedPassword;
     private static String loggedEmail;
 
-    public  String getLoggedUsername() {
-        return loggedUsername;
-    }
 
     private static String loggedScore;
 
@@ -53,48 +52,100 @@ public class Controller {
     public Button loginButtonLogin;
     public Button loginButtonBack;
 
-// sample logged page
+    // sample logged page
     public Button sampleLoggedPlayButton;
     public Button sampleLoggedLogoutButton;
     public Label sampleLoggedLabelUsername;
     public Label sampleLoggedLabelEmail;
     public Label sampleLoggedLabelScore;
 
-    public Label getSampleLoggedLabelUsername() {
-        return sampleLoggedLabelUsername;
-    }
-
-
 
     //    TEST BUTTONS
-    public Button testButton;
+//    public Button testButton;
 
 
     //METODE
 
-    public void setTestButton() {
-        testButton.setOnAction(event -> {
-//            Snake.class;
-        });
-    }
 
-    public void score() {
-        sampleLoggedLabelScore.setText("0");
-    }
+        //    Display details
+        public void setSampleLoggedDisplayDetails () {
+            sampleLoggedLabelUsername.setText(loggedUsername);
+            sampleLoggedLabelEmail.setText(loggedEmail);
+            sampleLoggedLabelScore.setText(loggedScore);
+
+        }
 
 
-    //    Display details
-    public void setSampleLoggedDisplayDetails() {
-        sampleLoggedLabelUsername.setText(loggedUsername);
-        sampleLoggedLabelEmail.setText(loggedEmail);
-        sampleLoggedLabelScore.setText(loggedScore);
+        //    Buttons sets
+        public void setSampleButtonPlay() {
+            sampleLoggedPlayButton.setOnAction(event -> {
+                ((Node) (event.getSource())).getScene().getWindow().hide();
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        try {
+                            new Main().start(new Stage());
+                        } catch (Exception e) {
+                            System.out.println("### EROARE ### Controller ### setSampleButtonPlay ###");
+                        }
+                    }
+                });
+            });
+        }
 
-    }
+        public void setButtonBackLogin () {
+            if (!isLogged) {
+                loginButtonBack.setOnMouseClicked((event) -> {
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        fxmlLoader.setLocation(getClass().getResource("/fxml/sample.fxml"));
+                        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+                        Stage stage = new Stage();
+                        stage.setScene(scene);
+                        stage.show();
+                        ((Node) (event.getSource())).getScene().getWindow().hide();
+                    } catch (Exception e) {
+                        System.out.println("### setButtonBackLogin ### Controller ### sample.fxml");
+                    }
+                });
+            } else {
+                loginButtonBack.setOnMouseClicked((event) -> {
+                            try {
+                                FXMLLoader fxmlLoader = new FXMLLoader();
+                                fxmlLoader.setLocation(getClass().getResource("/fxml/sampleLogged.fxml"));
+                                Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+                                Stage stage = new Stage();
+                                stage.setScene(scene);
+                                stage.show();
+                                ((Node) (event.getSource())).getScene().getWindow().hide();
+                            } catch (Exception e) {
+                                System.out.println("### setButtonBackLogin ### Controller ### sampleLogged.fxml");
+                            }
+                        }
+                );
+            }
+        }
 
-    //    Buttons sets
-    public void setButtonBackLogin() {
-        if (!isLogged) {
-            loginButtonBack.setOnMouseClicked((event) -> {
+        public void setSampleButtonLogin () {
+            sampleButtonLogin.setOnMouseClicked((event) -> {
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    fxmlLoader.setLocation(getClass().getResource("/fxml/login.fxml"));
+                    Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+                    Stage stage = new Stage();
+                    stage.setTitle("Login");
+                    stage.setScene(scene);
+                    stage.show();
+                    ((Node) (event.getSource())).getScene().getWindow().hide();
+                } catch (IOException e) {
+                    Logger logger = Logger.getLogger(getClass().getName());
+                    logger.log(Level.SEVERE, "Fail to create login window. ### Controller ### setSampleButtonLogin", e);
+
+                }
+            });
+        }
+
+        public void setBackButtonRegister () {
+            buttonBackRegister.setOnMouseClicked((event) -> {
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader();
                     fxmlLoader.setLocation(getClass().getResource("/fxml/sample.fxml"));
@@ -103,209 +154,196 @@ public class Controller {
                     stage.setScene(scene);
                     stage.show();
                     ((Node) (event.getSource())).getScene().getWindow().hide();
-                } catch (Exception e) {
-                    System.out.println("### setButtonBackLogin ### Controller ### sample.fxml");
+                } catch (IOException e) {
+                    System.out.println("ERROR ### Controller ### setBackButtonRegister ");
                 }
             });
-        } else {
-            loginButtonBack.setOnMouseClicked((event) -> {
-                        try {
-                            FXMLLoader fxmlLoader = new FXMLLoader();
-                            fxmlLoader.setLocation(getClass().getResource("/fxml/sampleLogged.fxml"));
-                            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-                            Stage stage = new Stage();
-                            stage.setScene(scene);
-                            stage.show();
-                            ((Node) (event.getSource())).getScene().getWindow().hide();
-                        } catch (Exception e) {
-                            System.out.println("### setButtonBackLogin ### Controller ### sampleLogged.fxml");
-                        }
-                    }
-            );
         }
-    }
 
-    public void setSampleButtonLogin() {
-        sampleButtonLogin.setOnMouseClicked((event) -> {
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/fxml/login.fxml"));
-                Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-                Stage stage = new Stage();
-                stage.setTitle("Login");
-                stage.setScene(scene);
-                stage.show();
-                ((Node) (event.getSource())).getScene().getWindow().hide();
-            } catch (IOException e) {
-                Logger logger = Logger.getLogger(getClass().getName());
-                logger.log(Level.SEVERE, "Fail to create login window. ### Controller ### setSampleButtonLogin", e);
-
-            }
-        });
-    }
-
-    public void setBackButtonRegister() {
-        buttonBackRegister.setOnMouseClicked((event) -> {
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/fxml/sample.fxml"));
-                Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-                Stage stage = new Stage();
-                stage.setScene(scene);
-                stage.show();
-                ((Node) (event.getSource())).getScene().getWindow().hide();
-            } catch (IOException e) {
-                System.out.println("ERROR ### Controller ### setBackButtonRegister ");
-            }
-        });
-    }
-
-    public void setSampleButtonRegister() {
-        sampleButtonRegister.setOnMouseClicked((event) -> {
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/fxml/register.fxml"));
-                Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-                Stage stage = new Stage();
-                stage.setTitle("Register");
-                stage.setScene(scene);
-                stage.show();
-                ((Node) (event.getSource())).getScene().getWindow().hide();
-            } catch (IOException e) {
-                Logger logger = Logger.getLogger(getClass().getName());
-                logger.log(Level.SEVERE, "Failed to create register window. ### Controller ### setSampleButtonRegister ###", e);
-            }
-        });
-    }
-
-    public void setSampleLoggedLogoutButton() {
-        sampleLoggedLogoutButton.setOnMouseClicked(event -> {
-            try {
-                isLogged = false;
-                loggedEmail = null;
-                loggedPassword = null;
-                loggedUsername = null;
-
-
-                Alert alert = new Alert(AlertType.INFORMATION, "You have been logged out !");
-                alert.setHeaderText(null);
-                alert.setGraphic(null);
-                alert.showAndWait();
-
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/fxml/sample.fxml"));
-                Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-                Stage stage = new Stage();
-                stage.setTitle("Login");
-                stage.setScene(scene);
-                stage.show();
-                ((Node) (event.getSource())).getScene().getWindow().hide();
-
-            } catch (Exception e) {
-                System.out.println("### EXCEPTIE ### Controller ### setSampleLoggedLogoutButton");
-            }
-        });
-        isLogged = false;
-    }
-
-
-
-
-
-    // REGISTER + LOGIN
-    public void setLoginButtonLogin() {
-        DBApp dbApp = new DBApp();
-        loginButtonLogin.setOnMouseClicked((event -> {
-            try {
-
-                if (dbApp.validateUsername(loginTextFieldUsername.getText()) && dbApp.validatePassword(loginTextFieldPassword.getText(),
-                        loginTextFieldPassword.getText())) {
-                    isLogged = true;
-
-                    loggedUsername = loginTextFieldUsername.getText();
-                    loggedEmail = dbApp.getEmail(loggedUsername);
-                    loggedScore = dbApp.getScore(loggedUsername);
-
-                    Alert alert = new Alert(AlertType.INFORMATION, "You have been logged succesfully !");
-                    alert.setHeaderText(null);
-                    alert.show();
-
-                    loginButtonBack.setOnMouseClicked((event1 -> {
-                        try {
-                            FXMLLoader fxmlLoader = new FXMLLoader();
-                            fxmlLoader.setLocation(getClass().getResource("/fxml/sampleLogged.fxml"));
-                            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-                            Stage stage = new Stage();
-                            stage.setTitle("Login");
-                            stage.setScene(scene);
-                            stage.show();
-                            ((Node) (event.getSource())).getScene().getWindow().hide();
-                        } catch (IOException e) {
-                            Logger logger = Logger.getLogger(getClass().getName());
-                            logger.log(Level.SEVERE, "Failed to create login window. ### Controller ### setLoginButtonLogin ###", e);
-                        }
-                    }));
-
-                } else {
-                    Alert alert = new Alert(AlertType.WARNING, "Username or password it's wrong !");
-                    alert.setHeaderText(null);
-                    alert.show();
+        public void setSampleButtonRegister () {
+            sampleButtonRegister.setOnMouseClicked((event) -> {
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    fxmlLoader.setLocation(getClass().getResource("/fxml/register.fxml"));
+                    Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+                    Stage stage = new Stage();
+                    stage.setTitle("Register");
+                    stage.setScene(scene);
+                    stage.show();
+                    ((Node) (event.getSource())).getScene().getWindow().hide();
+                } catch (IOException e) {
+                    Logger logger = Logger.getLogger(getClass().getName());
+                    logger.log(Level.SEVERE, "Failed to create register window. ### Controller ### setSampleButtonRegister ###", e);
                 }
+            });
+        }
 
-            } catch (Exception e) {
-                System.out.println("### setLoginButtonLogin ### Controller ###");
-            }
-        }));
-    }
+        public void setSampleLoggedLogoutButton () {
+            sampleLoggedLogoutButton.setOnMouseClicked(event -> {
+                try {
+                    isLogged = false;
+                    loggedEmail = null;
+                    loggedPassword = null;
+                    loggedUsername = null;
 
-    public void setRegisterButtonRegister() {
-        DBApp dbApp = new DBApp();
+                    File file = new File("loggedEmail.txt");
+                    File file1 = new File("loggedUsername.txt");
+                    File file2 = new File("loggedScore.txt");
 
-        if (!registerTextFieldUsername.getText().equals("") &&
-                !registerTextFieldEmail.getText().equals("") &&
-                !registerTextFieldPassword.getText().equals("") &&
-                !registerTextFieldConfirmPassword.getText().equals("") &&
-                !registerTextFieldFirstname.getText().equals("") &&
-                !registerTextfieldLastname.getText().equals("") &&
-                !registerTextFieldPhone.getText().equals("")) {
-            if (!dbApp.validateEmail(registerTextFieldEmail.getText()) && !dbApp.validateUsername(registerTextFieldUsername.getText())) {
-                if (registerTextFieldPassword.getText().equals(registerTextFieldConfirmPassword.getText())) {
+                    file.delete();
+                    file1.delete();
+                    file2.delete();
 
-                    dbApp.insertUser(registerTextFieldUsername.getText(),
-                            registerTextFieldPassword.getText(),
-                            registerTextFieldEmail.getText(),
-                            registerTextFieldFirstname.getText(),
-                            registerTextfieldLastname.getText(),
-                            Integer.parseInt(registerTextFieldPhone.getText()));
 
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Register succesufully !");
-                    alert.setTitle("Register");
+                    Alert alert = new Alert(AlertType.INFORMATION, "You have been logged out !");
                     alert.setHeaderText(null);
                     alert.setGraphic(null);
-                    alert.show();
+                    alert.showAndWait();
+
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    fxmlLoader.setLocation(getClass().getResource("/fxml/sample.fxml"));
+                    Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+                    Stage stage = new Stage();
+                    stage.setTitle("Login");
+                    stage.setScene(scene);
+                    stage.show();
+                    ((Node) (event.getSource())).getScene().getWindow().hide();
+
+                } catch (Exception e) {
+                    System.out.println("### EXCEPTIE ### Controller ### setSampleLoggedLogoutButton");
+                }
+            });
+
+            isLogged = false;
+        }
+
+
+        // REGISTER + LOGIN
+        public void setLoginButtonLogin () {
+            DBApp dbApp = new DBApp();
+            loginButtonLogin.setOnMouseClicked((event -> {
+                try {
+
+                    if (dbApp.validateUsername(loginTextFieldUsername.getText()) && dbApp.validatePassword(loginTextFieldPassword.getText(),
+                            loginTextFieldPassword.getText())) {
+                        isLogged = true;
+
+                        loggedUsername = loginTextFieldUsername.getText();
+                        loggedEmail = dbApp.getEmail(loggedUsername);
+                        loggedScore = dbApp.getScore(loggedUsername);
+
+                        File file = new File("loggedUsername.txt");
+                        File file1 = new File("loggedEmail.txt");
+                        File file2 = new File("loggedScore.txt");
+
+                        try {
+                            if (file.createNewFile() && file1.createNewFile() && file2.createNewFile()) {
+                                System.out.println("File is created!");
+                            } else {
+                                System.out.println("File already exists.");
+                            }
+
+                            FileWriter writer = new FileWriter(file);
+                            writer.write(loggedUsername);
+                            writer.close();
+
+                            FileWriter writer1 = new FileWriter(file1);
+                            writer1.write(loggedEmail);
+                            writer1.close();
+
+                            FileWriter writer2 = new FileWriter(file2);
+                            writer2.write(loggedScore);
+                            writer2.close();
+                        } catch (Exception e) {
+                            System.out.println("### ERROR CREATING FILE ### CONTROLLER ### setLoginButtonLogin ###");
+                        }
+
+
+                        Alert alert = new Alert(AlertType.INFORMATION, "You have been logged succesfully !");
+                        alert.setHeaderText(null);
+                        alert.show();
+
+                        loginButtonBack.setOnMouseClicked((event1 -> {
+                            try {
+                                FXMLLoader fxmlLoader = new FXMLLoader();
+                                fxmlLoader.setLocation(getClass().getResource("/fxml/sampleLogged.fxml"));
+                                Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+                                Stage stage = new Stage();
+                                stage.setTitle("Login");
+                                stage.setScene(scene);
+                                stage.show();
+                                ((Node) (event.getSource())).getScene().getWindow().hide();
+                            } catch (IOException e) {
+                                Logger logger = Logger.getLogger(getClass().getName());
+                                logger.log(Level.SEVERE, "Failed to create login window. ### Controller ### setLoginButtonLogin ###", e);
+                            }
+                        }));
+
+                    } else {
+                        Alert alert = new Alert(AlertType.WARNING, "Username or password it's wrong !");
+                        alert.setHeaderText(null);
+                        alert.show();
+                    }
+
+                } catch (Exception e) {
+                    System.out.println("### setLoginButtonLogin ### Controller ###");
+                }
+            }));
+        }
+
+        public void setRegisterButtonRegister () {
+            DBApp dbApp = new DBApp();
+
+            if (!registerTextFieldUsername.getText().equals("") &&
+                    !registerTextFieldEmail.getText().equals("") &&
+                    !registerTextFieldPassword.getText().equals("") &&
+                    !registerTextFieldConfirmPassword.getText().equals("") &&
+                    !registerTextFieldFirstname.getText().equals("") &&
+                    !registerTextfieldLastname.getText().equals("") &&
+                    !registerTextFieldPhone.getText().equals("")) {
+                if (!dbApp.validateEmail(registerTextFieldEmail.getText()) && !dbApp.validateUsername(registerTextFieldUsername.getText())) {
+                    if (registerTextFieldPassword.getText().equals(registerTextFieldConfirmPassword.getText())) {
+
+                        dbApp.insertUser(registerTextFieldUsername.getText(),
+                                registerTextFieldPassword.getText(),
+                                registerTextFieldEmail.getText(),
+                                registerTextFieldFirstname.getText(),
+                                registerTextfieldLastname.getText(),
+                                Integer.parseInt(registerTextFieldPhone.getText()));
+
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Register succesufully !");
+                        alert.setTitle("Register");
+                        alert.setHeaderText(null);
+                        alert.setGraphic(null);
+                        alert.show();
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.ERROR, "Password dosen't match !");
+                        alert.setTitle("Register");
+                        alert.setHeaderText(null);
+                        alert.setGraphic(null);
+                        alert.show();
+                    }
                 } else {
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "Password dosen't match !");
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Username or email exist ! Try another !");
                     alert.setTitle("Register");
                     alert.setHeaderText(null);
                     alert.setGraphic(null);
                     alert.show();
                 }
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Username or email exist ! Try another !");
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You must complete all fields !");
                 alert.setTitle("Register");
                 alert.setHeaderText(null);
                 alert.setGraphic(null);
                 alert.show();
             }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "You must complete all fields !");
-            alert.setTitle("Register");
-            alert.setHeaderText(null);
-            alert.setGraphic(null);
-            alert.show();
         }
-    }
+
+
 }
+
+
+
 
 
 

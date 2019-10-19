@@ -33,29 +33,6 @@ public class DBApp {
          sessionFactory = new Configuration().configure().buildSessionFactory();
     }
 
-    public String getScoreID(String username){
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        try {
-
-            Query query = session.createQuery("SELECT id FROM User WHERE username= :u").setParameter("u", username);
-            Object userNameID = query.getSingleResult();
-
-            Query query1 = session.createQuery("SELECT id FROM Score WHERE id= :s").setParameter("s",userNameID);
-            Object e = query1.getSingleResult();
-
-
-            transaction.commit();
-            session.close();
-
-            return e.toString();
-
-        } catch (NoResultException e) {
-            session.close();
-            return  "### getScoreID ### Controller ###";
-
-        }
-    }
 
 //    Register
 
@@ -208,33 +185,50 @@ public class DBApp {
 
         } catch (NoResultException e) {
             session.close();
-            return  "### getScore ### Controller ###";
+            return  "### getScore ### DbApp ###";
 
         }
     }
 
 
-    public void addScoreValue(Score score, int value) {
+//  Score methods
+    public void updateScore(int playerID, int score) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        Score user = session.find(Score.class, score.getId());
-        user.setValue(value);
+        Score score1 = session.find(Score.class, playerID);
+        score1.setValue(score);
         transaction.commit();
         session.close();
     }
-
-    public void updateScore(Player player, Score score) {
+    public void insertScore(String username){
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        Player user = session.find(Player.class, player.getId());
-        user.setScore(score);
-        transaction.commit();
-        session.close();
-    }
+        String i = getScoreID(username);
 
-    public void addScore(Player player, int value) {
-        this.addScoreValue(player.getScore(), value);
-        this.updateScore(player, player.getScore());
+
+    }
+    public String getScoreID(String username){
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+
+            Query query = session.createQuery("SELECT id FROM User WHERE username= :u").setParameter("u", username);
+            Object userNameID = query.getSingleResult();
+
+            Query query1 = session.createQuery("SELECT id FROM Score WHERE id= :s").setParameter("s",userNameID);
+            Object e = query1.getSingleResult();
+
+
+            transaction.commit();
+            session.close();
+
+            return e.toString();
+
+        } catch (NoResultException e) {
+            session.close();
+            return  "### getScoreID ### Controller ###";
+
+        }
     }
 
 
