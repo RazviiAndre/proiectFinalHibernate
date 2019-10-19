@@ -42,7 +42,7 @@ import java.util.logging.Logger;
 
 
 public class Main extends Application  {
-    
+
     //variable game
     static int speed = 5;
     static int foodcolor = 0;
@@ -116,7 +116,7 @@ public class Main extends Application  {
                 fxmlLoader.setLocation(getClass().getResource("/fxml/sample.fxml"));
                 Scene scene = new Scene(fxmlLoader.load(), 600, 400);
                 Stage stage = new Stage();
-                stage.setTitle("Login");
+                stage.setTitle("");
                 stage.setScene(scene);
                 stage.show();
                 ((Node) (event.getSource())).getScene().getWindow().hide();
@@ -135,7 +135,7 @@ public class Main extends Application  {
     }
 
     //    tick
-    public static void tick(GraphicsContext graphicsContext) {
+    public void tick(GraphicsContext graphicsContext) {
         if (gameOver) {
             graphicsContext.setFill(Color.RED);
             graphicsContext.setFont(new Font("", 50));
@@ -347,9 +347,9 @@ public class Main extends Application  {
 
             });
 
-            dialog.getDialogPane().lookupButton(backButton).setOnMousePressed((event -> {
-
-                stage.hide();
+            dialog.getDialogPane().lookupButton(backButton).setOnMousePressed(event -> {
+                stage.close();
+                stage = new Stage();
                 dialog.close();
 
 
@@ -367,19 +367,20 @@ public class Main extends Application  {
                     Scanner scanner2 = new Scanner(file2);
                     loggedScore = scanner2.nextInt();
 
+
                     FXMLLoader fxmlLoader = new FXMLLoader();
                     fxmlLoader.setLocation(Main.class.getResource("/fxmlGame/sampleLogged.fxml"));
                     Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-                    Stage stage = new Stage();
-                    stage.setTitle("Login");
+//                    Stage stage = new Stage();
+                    stage.setTitle("");
                     stage.setScene(scene);
                     stage.show();
 
-                } catch (IOException e) {
+                } catch (Exception e) {
                     Logger logger = Logger.getLogger(Main.class.getName());
                     logger.log(Level.SEVERE, "Failed to create login window. ### Main ### if(gameOver) ###", e);
                 }
-            }));
+            });
 
 
             dialog.show();
@@ -411,7 +412,7 @@ public class Main extends Application  {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-
+        gameOver = false;
         stage = primaryStage;
        Platform.setImplicitExit(true);
 
@@ -465,9 +466,9 @@ public class Main extends Application  {
             snake.add(new Corner(latime / 2, inaltime / 2));
 
 
-            primaryStage.setScene(scene);
-            primaryStage.setTitle("SNAKE");
-            primaryStage.show();
+            stage.setScene(scene);
+            stage.setTitle("SNAKE");
+            stage.show();
 
 
 

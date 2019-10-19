@@ -3,9 +3,12 @@ package DAO;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.util.Objects;
 
+
 @Entity
+@Table(name = "game")
 public class Game {
     @Id
     private int id;

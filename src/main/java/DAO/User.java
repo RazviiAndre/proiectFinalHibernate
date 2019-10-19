@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "User")
+@Table(name = "user")
 public class User {
     @Id
     private int id;

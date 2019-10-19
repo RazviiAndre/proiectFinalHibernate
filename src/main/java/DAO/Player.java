@@ -1,5 +1,8 @@
 package DAO;
 
+import com.sun.javafx.css.CssError;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -7,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Table(name = "player")
 public class Player {
     @Id
     private int id;
@@ -15,11 +19,12 @@ public class Player {
     private String email;
     private int phone;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
     private User user;
 
-//    @OneToOne(mappedBy = "player")
+//    @OneToOne(cascade = CascadeType.PERSIST)
+//    @JoinColumn(name = "score_id")
 //    private Score score;
 
     public Player(String firstName , String lastName , String email , int phone, User user){
@@ -28,6 +33,7 @@ public class Player {
         this.email = email;
         this.phone = phone;
         this.user = user;
+//        this.score = score;
     }
 
     public Player() {
@@ -84,9 +90,10 @@ public class Player {
 //    public Score getScore() {
 //        return score;
 //    }
-
-    public void setScore(int score) {
-    }
+//
+//    public void setScore(Score score) {
+//        this.score = score;
+//    }
 
     @Override
     public boolean equals(Object o) {

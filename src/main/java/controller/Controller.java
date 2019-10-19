@@ -1,5 +1,8 @@
 package controller;
 
+import DAO.Player;
+import DAO.Score;
+import DAO.User;
 import game.Main;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -204,7 +207,7 @@ public class Controller  {
                     fxmlLoader.setLocation(getClass().getResource("/fxml/sample.fxml"));
                     Scene scene = new Scene(fxmlLoader.load(), 600, 400);
                     Stage stage = new Stage();
-                    stage.setTitle("Login");
+                    stage.setTitle("");
                     stage.setScene(scene);
                     stage.show();
                     ((Node) (event.getSource())).getScene().getWindow().hide();
@@ -223,14 +226,20 @@ public class Controller  {
             DBApp dbApp = new DBApp();
             loginButtonLogin.setOnMouseClicked((event -> {
                 try {
-
-                    if (dbApp.validateUsername(loginTextFieldUsername.getText()) && dbApp.validatePassword(loginTextFieldPassword.getText(),
-                            loginTextFieldPassword.getText())) {
+                    User user = dbApp.validatePassword(loginTextFieldPassword.getText(),
+                            loginTextFieldUsername.getText());
+                    if (user != null) {
                         isLogged = true;
 
                         loggedUsername = loginTextFieldUsername.getText();
-                        loggedEmail = dbApp.getEmail(loggedUsername);
-                        loggedScore = dbApp.getScore(loggedUsername);
+                        Player player = user.getPlayer();
+                        loggedEmail = player.getEmail();
+                        Score score = player.getScore();
+                        if (score != null) {
+                            loggedScore = "" + score.getValue();
+                        } else {
+                            loggedScore = "";
+                        }
 
                         File file = new File("loggedUsername.txt");
                         File file1 = new File("loggedEmail.txt");

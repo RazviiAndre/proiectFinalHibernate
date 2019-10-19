@@ -41,36 +41,43 @@ public class DBApp {
         Transaction transaction = session.beginTransaction();
         User user = new User(username, password);
         session.persist(user);
-        transaction.commit();
-        session.close();
-
-        session = sessionFactory.openSession();
-        transaction = session.beginTransaction();
-        Query query = session.createQuery("SELECT u FROM User u WHERE u.username= :u").setParameter("u", username);
-        user = (User) query.getSingleResult();
-        Player player = new Player(firstName, lastName, email, phone, user);
-        session.persist(player);
-        transaction.commit();
-        session.close();
-
-        session = sessionFactory.openSession();
-        transaction = session.beginTransaction();
-//
-//        Query query1 = session.createQuery("SELECT id FROM User WHERE username= :id").setParameter("id",username);
-//        Object userID = query1.getSingleResult().toString();
-//
-//
-//        Query query2 = session.createQuery("SELECT username FROM User WHERE username= :username").setParameter("username",username);
-//        Object userName = query2.getSingleResult().toString();
-//        String x = getScore((String) userName);
-//        int y = Integer.parseInt(x);
-//
-//        Score score = new Score(z ,y);
-
         Score score = new Score(0);
         session.persist(score);
+        Player player = new Player(firstName, lastName, email, phone, user, score);
+        session.persist(player);
+        session.persist(user);
         transaction.commit();
         session.close();
+
+//        session = sessionFactory.openSession();
+//        transaction = session.beginTransaction();
+//        Query query = session.createQuery("SELECT u FROM User u WHERE u.username= :u").setParameter("u", username);
+//        user = (User) query.getSingleResult();
+//        Player player = new Player(firstName, lastName, email, phone, user);
+//        Score score = new Score(0);
+//        player.setScore(score);
+//        session.persist(player);
+//        transaction.commit();
+//        session.close();
+//
+//        session = sessionFactory.openSession();
+//        transaction = session.beginTransaction();
+////
+////        Query query1 = session.createQuery("SELECT id FROM User WHERE username= :id").setParameter("id",username);
+////        Object userID = query1.getSingleResult().toString();
+////
+////
+////        Query query2 = session.createQuery("SELECT username FROM User WHERE username= :username").setParameter("username",username);
+////        Object userName = query2.getSingleResult().toString();
+////        String x = getScore((String) userName);
+////        int y = Integer.parseInt(x);
+////
+////        Score score = new Score(z ,y);
+//
+//
+//        session.persist(score);
+//        transaction.commit();
+//        session.close();
     }
     public boolean validateUsername(String name) {
         Session session = sessionFactory.openSession();
@@ -111,31 +118,23 @@ public class DBApp {
         }
     }
 //    Login
-    public boolean validatePassword(String password , String username) {
+    public User validatePassword(String password , String username) {
 
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            Query query = session.createQuery("SELECT password FROM User WHERE username= :p").setParameter("p", password);
-            Query query1 = session.createQuery("SELECT username FROM User Where username= :u").setParameter("u",username);
-            Object user = query1.getSingleResult();
-            Object pass = query.getSingleResult();
+            Query query = session.createQuery("SELECT u FROM User u WHERE username= :u and password = :p").setParameter("p", password)
+                    .setParameter("u", username);
+            User user = (User)query.getSingleResult();
             transaction.commit();
             session.close();
-            if (password.equals(pass) && user.equals(username)) {
-                System.out.println("Ai fost logat !");
-                session.close();
-                return true;
-            } else {
-                System.out.println("Nu te-ai logat !");
-                session.close();
-                return false;
-            }
-
+            System.out.println("Ai fost logat !");
+            return user;
         } catch (NoResultException e) {
+            System.out.println("Nu te-ai logat !");
             System.out.println("EXCEPTIE ### validatePassword ### Controller ### Cont-uri cu username sau password indentice(a ramas de facut) ### ");
             session.close();
-            return false;
+            return null;
         }
     }
 
