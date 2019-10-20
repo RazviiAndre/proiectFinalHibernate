@@ -470,6 +470,7 @@ public class Main extends Application  {
             }.start();
 
 
+//            Rezolutia
             Scene scene = new Scene(root, latime * cornersize, inaltime * cornersize);
 
             //control
