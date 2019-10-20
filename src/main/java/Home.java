@@ -1,13 +1,9 @@
-import controller.DBApp;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 
 public class Home extends Application {
 
@@ -33,6 +29,7 @@ public class Home extends Application {
 
 
 //        DBApp dbApp = new DBApp();
+//      dbApp.insertGame("qwe","test","test");
 //        System.out.println(dbApp.getScore("root"));
         //        System.out.println(dbApp.getScoreID("qwe"));
 //        System.out.println(dbApp.getScore("qwe"));
@@ -48,6 +45,7 @@ public class Home extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/sample.fxml"));
         primaryStage.setTitle("");
         primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.getIcons().add(new Image("/img/snake.png"));
         primaryStage.show();
     }
 

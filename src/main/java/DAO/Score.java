@@ -3,15 +3,16 @@ package DAO;
 import javax.persistence.*;
 import java.util.Objects;
 
-//@Entity
-//@Table(name = "score")
+@Entity
+@Table(name = "score")
 public class Score {
-//    @Id
-//    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private int value;
-//
-//    @OneToOne(mappedBy = "score")
-//    private Player player;
+
+    @OneToOne(mappedBy = "score")
+    private Player player;
 
     public Score() {
     }
@@ -41,14 +42,14 @@ public class Score {
     public void setValue(int value) {
         this.value = value;
     }
-//
-//    public Player getPlayer() {
-//        return player;
-//    }
-//
-//    public void setPlayer(Player player) {
-//        this.player = player;
-//    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
 
     @Override
     public boolean equals(Object o) {

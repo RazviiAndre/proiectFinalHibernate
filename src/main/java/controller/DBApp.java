@@ -1,5 +1,6 @@
 package controller;
 
+import DAO.Game;
 import DAO.Player;
 import DAO.Score;
 import DAO.User;
@@ -39,13 +40,13 @@ public class DBApp {
     public void insertUser(String username, String password, String email, String firstName, String lastName, int phone) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
+
         User user = new User(username, password);
-        session.persist(user);
         Score score = new Score(0);
-        session.persist(score);
         Player player = new Player(firstName, lastName, email, phone, user, score);
+
         session.persist(player);
-        session.persist(user);
+
         transaction.commit();
         session.close();
 
@@ -199,13 +200,6 @@ public class DBApp {
         transaction.commit();
         session.close();
     }
-    public void insertScore(String username){
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        String i = getScoreID(username);
-
-
-    }
     public String getScoreID(String username){
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -230,6 +224,23 @@ public class DBApp {
         }
     }
 
+//    Game methods
+    public void insertGame(String username,String nameGame,String rating){
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        Query query = session.createQuery("SELECT u FROM User u WHERE u.username= :u").setParameter("u",username);
+        User user = new User();
+        user = (User)query.getSingleResult();
+        int ID = user.getId();
+
+        Game game = new Game(ID,nameGame,rating);
+
+
+        session.persist(game);
+        transaction.commit();
+
+
+    }
 
 
 }

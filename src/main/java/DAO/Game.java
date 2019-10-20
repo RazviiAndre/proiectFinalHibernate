@@ -1,9 +1,6 @@
 package DAO;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 
@@ -11,9 +8,20 @@ import java.util.Objects;
 @Table(name = "game")
 public class Game {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private String description;
+    private String rating;
+
+    public Game(int id , String name , String rating){
+        this.id = id;
+        this.name = name;
+        this.rating = rating;
+    }
+
+    public Game(){
+
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -22,11 +30,11 @@ public class Game {
         Game game = (Game) o;
         return id == game.id &&
                 Objects.equals(name, game.name) &&
-                Objects.equals(description, game.description);
+                Objects.equals(rating, game.rating);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description);
+        return Objects.hash(id, name, rating);
     }
 }

@@ -13,6 +13,7 @@ import java.util.Objects;
 @Table(name = "player")
 public class Player {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String firstName;
     private String lastName;
@@ -23,17 +24,17 @@ public class Player {
     @JoinColumn(name = "user_id")
     private User user;
 
-//    @OneToOne(cascade = CascadeType.PERSIST)
-//    @JoinColumn(name = "score_id")
-//    private Score score;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "score_id")
+    private Score score;
 
-    public Player(String firstName , String lastName , String email , int phone, User user){
+    public Player(String firstName , String lastName , String email , int phone, User user , Score score){
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
         this.user = user;
-//        this.score = score;
+        this.score = score;
     }
 
     public Player() {
@@ -87,13 +88,13 @@ public class Player {
         this.user = user;
     }
 
-//    public Score getScore() {
-//        return score;
-//    }
-//
-//    public void setScore(Score score) {
-//        this.score = score;
-//    }
+    public Score getScore() {
+        return score;
+    }
+
+    public void setScore(Score score) {
+        this.score = score;
+    }
 
     @Override
     public boolean equals(Object o) {

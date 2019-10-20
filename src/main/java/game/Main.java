@@ -5,6 +5,7 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -26,6 +28,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 
 import java.awt.*;
@@ -44,22 +47,22 @@ import java.util.logging.Logger;
 public class Main extends Application  {
 
     //variable game
-    static int speed = 5;
-    static int foodcolor = 0;
-    static int scorecolor = 0;
-    static int latime = 20;
-    static int inaltime = 20;
-    static int foodX = 0;
-    static int foodY = 0;
-    static int cornersize = 25;
-    static List<Corner> snake = new ArrayList<>();
-    static Dir direction = Dir.left;
-    static boolean gameOver = false;
-    static Random random = new Random();
-    static int score = 0;
+     int speed = 5;
+     int foodcolor = 0;
+     int scorecolor = 0;
+     int latime = 20;
+     int inaltime = 20;
+     int foodX = 0;
+     int foodY = 0;
+     int cornersize = 25;
+     List<Corner> snake = new ArrayList<>();
+     Dir direction = Dir.left;
+     boolean gameOver = false;
+     Random random = new Random();
+     int score = 0;
 
 //    primaryStage game
-    private static Stage stage;
+    private Stage stage;
 
 //  variable logged account
     static String loggedUsername;
@@ -69,15 +72,14 @@ public class Main extends Application  {
 
     // variable fxml Buttons and more
     @FXML
-    public  Label sampleLoggedLabelUsername;
+    public Label sampleLoggedLabelUsername;
     public Button sampleLoggedPlayButton;
     public Button sampleLoggedLogoutButton;
     public Label sampleLoggedLabelEmail;
     public Label sampleLoggedLabelScore;
 
 
-    public void setSampleButtonPlay() {
-        sampleLoggedPlayButton.setOnAction(event -> {
+    public void setSampleButtonPlay(ActionEvent event) {
             ((Node) (event.getSource())).getScene().getWindow().hide();
             Platform.runLater(new Runnable() {
                 public void run() {
@@ -88,7 +90,6 @@ public class Main extends Application  {
                     }
                 }
             });
-        });
     }
 
     //  method for logout button
@@ -117,6 +118,7 @@ public class Main extends Application  {
                 Scene scene = new Scene(fxmlLoader.load(), 600, 400);
                 Stage stage = new Stage();
                 stage.setTitle("");
+                stage.getIcons().add(new Image("/img/snake.png"));
                 stage.setScene(scene);
                 stage.show();
                 ((Node) (event.getSource())).getScene().getWindow().hide();
@@ -293,15 +295,30 @@ public class Main extends Application  {
 
         //game over
         if (gameOver) {
-            ButtonType saveButton = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+            ButtonType saveButton = new ButtonType("Save Score", ButtonBar.ButtonData.OK_DONE);
             ButtonType backButton = new ButtonType("Back", ButtonBar.ButtonData.OK_DONE);
+            ButtonType newgameButton = new ButtonType("New Game",ButtonBar.ButtonData.OK_DONE);
 
             Dialog<String> dialog = new Dialog<>();
+            dialog.setContentText("                                 GAME OVER !!");
             dialog.getDialogPane().getButtonTypes().add(backButton);
             dialog.getDialogPane().getButtonTypes().add(saveButton);
+            dialog.getDialogPane().getButtonTypes().add(newgameButton);
+
+            dialog.getDialogPane().lookupButton(newgameButton).setOnMousePressed(event -> {
+                ((Node) (event.getSource())).getScene().getWindow().hide();
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        try {
+                            new Main().start(new Stage());
+                        } catch (Exception e) {
+                            System.out.println("### EROARE ### Main ### newGameButton ###");
+                        }
+                    }
+                });
+            });
 
             dialog.getDialogPane().lookupButton(saveButton).setOnMousePressed(event -> {
-
 
 
                 try {
@@ -324,8 +341,10 @@ public class Main extends Application  {
                     String dbPlayerScoreId = dbApp.getScoreID(loggedUsername);
                     int scoreInDb = Integer.parseInt(dbPlayerScore);
 
+
                     loggedScore = scoreInDb + score;
 
+                    dbApp.updateScore(Integer.parseInt(dbPlayerScoreId),loggedScore);
                     try {
                         FileWriter writer = new FileWriter(file2);
                         writer.write(String.valueOf(loggedScore));
@@ -334,7 +353,6 @@ public class Main extends Application  {
                         System.out.println("### EXCEPTIE ### saveButton ### Main ### fileWriter SCORE ###");
                     }
 
-                    dbApp.updateScore(Integer.parseInt(dbPlayerScoreId),loggedScore);
 
                     Alert.AlertType alertAlertType;
                     Alert alert = new Alert(AlertType.INFORMATION , "Your score was successfully saved !");
@@ -373,6 +391,7 @@ public class Main extends Application  {
                     Scene scene = new Scene(fxmlLoader.load(), 600, 400);
 //                    Stage stage = new Stage();
                     stage.setTitle("");
+                    stage.getIcons().add(new Image("/img/snake.png"));
                     stage.setScene(scene);
                     stage.show();
 
@@ -383,7 +402,15 @@ public class Main extends Application  {
             });
 
 
+
             dialog.show();
+
+//            Event cand apasam pe x in dialog pentru inchidere
+            Window window = dialog.getDialogPane().getScene().getWindow();
+            window.setOnCloseRequest(event -> {
+                Platform.exit();
+                System.exit(0);
+                    });
 
         }
 
@@ -391,7 +418,7 @@ public class Main extends Application  {
     }
 
     //food
-    public static void newFood(){
+    public void newFood(){
         start : while(true){
             foodX = random.nextInt(latime);
             foodY = random.nextInt(inaltime);
@@ -414,7 +441,8 @@ public class Main extends Application  {
     public void start(Stage primaryStage) throws Exception{
         gameOver = false;
         stage = primaryStage;
-       Platform.setImplicitExit(true);
+
+
 
         try {
             newFood();
@@ -468,6 +496,7 @@ public class Main extends Application  {
 
             stage.setScene(scene);
             stage.setTitle("SNAKE");
+            stage.getIcons().add(new Image("/img/snake.png"));
             stage.show();
 
 

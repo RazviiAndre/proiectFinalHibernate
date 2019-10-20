@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -80,8 +81,7 @@ public class Controller  {
 
 
         //    Buttons sets
-        public void setSampleButtonPlay() {
-            sampleLoggedPlayButton.setOnAction(event -> {
+        public void setSampleButtonPlay(ActionEvent event) {
                 ((Node) (event.getSource())).getScene().getWindow().hide();
                 Platform.runLater(new Runnable() {
                     public void run() {
@@ -92,7 +92,6 @@ public class Controller  {
                         }
                     }
                 });
-            });
         }
 
         public void setButtonBackLogin () {
@@ -103,6 +102,7 @@ public class Controller  {
                         fxmlLoader.setLocation(getClass().getResource("/fxml/sample.fxml"));
                         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
                         Stage stage = new Stage();
+                        stage.getIcons().add(new Image("/img/snake.png"));
                         stage.setScene(scene);
                         stage.show();
                         ((Node) (event.getSource())).getScene().getWindow().hide();
@@ -117,6 +117,7 @@ public class Controller  {
                                 fxmlLoader.setLocation(getClass().getResource("/fxml/sampleLogged.fxml"));
                                 Scene scene = new Scene(fxmlLoader.load(), 600, 400);
                                 Stage stage = new Stage();
+                                stage.getIcons().add(new Image("/img/snake.png"));
                                 stage.setScene(scene);
                                 stage.show();
                                 ((Node) (event.getSource())).getScene().getWindow().hide();
@@ -135,6 +136,7 @@ public class Controller  {
                     fxmlLoader.setLocation(getClass().getResource("/fxml/login.fxml"));
                     Scene scene = new Scene(fxmlLoader.load(), 600, 400);
                     Stage stage = new Stage();
+                    stage.getIcons().add(new Image("/img/snake.png"));
                     stage.setTitle("Login");
                     stage.setScene(scene);
                     stage.show();
@@ -170,6 +172,7 @@ public class Controller  {
                     fxmlLoader.setLocation(getClass().getResource("/fxml/register.fxml"));
                     Scene scene = new Scene(fxmlLoader.load(), 600, 400);
                     Stage stage = new Stage();
+                    stage.getIcons().add(new Image("/img/snake.png"));
                     stage.setTitle("Register");
                     stage.setScene(scene);
                     stage.show();
@@ -207,6 +210,7 @@ public class Controller  {
                     fxmlLoader.setLocation(getClass().getResource("/fxml/sample.fxml"));
                     Scene scene = new Scene(fxmlLoader.load(), 600, 400);
                     Stage stage = new Stage();
+                    stage.getIcons().add(new Image("/img/snake.png"));
                     stage.setTitle("");
                     stage.setScene(scene);
                     stage.show();
@@ -278,6 +282,7 @@ public class Controller  {
                                 fxmlLoader.setLocation(getClass().getResource("/fxml/sampleLogged.fxml"));
                                 Scene scene = new Scene(fxmlLoader.load(), 600, 400);
                                 Stage stage = new Stage();
+                                stage.getIcons().add(new Image("/img/snake.png"));
                                 stage.setTitle("Login");
                                 stage.setScene(scene);
                                 stage.show();
