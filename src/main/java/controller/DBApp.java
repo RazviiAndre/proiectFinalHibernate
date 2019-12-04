@@ -31,7 +31,9 @@ public class DBApp {
 //        Metadata metadata = sources.getMetadataBuilder().build();
 //        sessionFactory = metadata.getSessionFactoryBuilder().build();
         //old style
-         sessionFactory = new Configuration().configure().buildSessionFactory();
+//         sessionFactory = new Configuration().configure().buildSessionFactory();
+         sessionFactory =
+                new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
     }
 
 
@@ -236,7 +238,7 @@ public class DBApp {
         Game game = new Game(ID,nameGame,rating);
 
 
-        session.persist(game);
+        session.merge(game);
         transaction.commit();
 
 

@@ -306,7 +306,7 @@ public class Main extends Application  {
             dialog.getDialogPane().getButtonTypes().add(newgameButton);
 
             dialog.getDialogPane().lookupButton(newgameButton).setOnMousePressed(event -> {
-                ((Node) (event.getSource())).getScene().getWindow().hide();
+                stage.close();
                 Platform.runLater(new Runnable() {
                     public void run() {
                         try {
@@ -340,6 +340,8 @@ public class Main extends Application  {
                     String dbPlayerScore = dbApp.getScore(loggedUsername);
                     String dbPlayerScoreId = dbApp.getScoreID(loggedUsername);
                     int scoreInDb = Integer.parseInt(dbPlayerScore);
+
+                    dbApp.insertGame(loggedUsername,stage.getTitle(),"Wow , cel mai tare joc !!");
 
 
                     loggedScore = scoreInDb + score;

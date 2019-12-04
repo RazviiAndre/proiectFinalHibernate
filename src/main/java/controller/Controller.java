@@ -6,6 +6,7 @@ import DAO.User;
 import game.Main;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -62,7 +63,6 @@ public class Controller  {
     public Label sampleLoggedLabelUsername;
     public Label sampleLoggedLabelEmail;
     public Label sampleLoggedLabelScore;
-
 
     //    TEST BUTTONS
 //    public Button testButton;
@@ -204,6 +204,8 @@ public class Controller  {
                     Alert alert = new Alert(AlertType.INFORMATION, "You have been logged out !");
                     alert.setHeaderText(null);
                     alert.setGraphic(null);
+                    alert.setX(50);
+                    alert.setY(50);
                     alert.showAndWait();
 
                     FXMLLoader fxmlLoader = new FXMLLoader();
@@ -272,7 +274,7 @@ public class Controller  {
                         }
 
 
-                        Alert alert = new Alert(AlertType.INFORMATION, "You have been logged succesfully !");
+                        Alert alert = new Alert(AlertType.INFORMATION, "You have been logged succesfully !" );
                         alert.setHeaderText(null);
                         alert.show();
 
